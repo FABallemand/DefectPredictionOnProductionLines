@@ -27,7 +27,9 @@ This number is increased by 1 each time we process a new product, every 12s. So 
 
 ## To do list:
 
-- Improve model performance (remove outliers, adding data, select most relevant features)
+- Improve model performance (remove outliers, adding data, select most relevant features)  
+- Decision trees & random forests  
+- Add description, advantages and drawbacks for each method  
 
 ## Team
 
