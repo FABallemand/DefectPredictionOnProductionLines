@@ -18,6 +18,7 @@
 \usepackage[babel=true,kerning=true]{microtype}
 \usepackage{afterpage}
 \usepackage{wrapfig}
+% \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
 
 \newcommand\myemptypage{
     \null
@@ -120,23 +121,40 @@
 \end{figure}
 
 \newpage
-\vspace*{0.1cm}
+\vspace*{0.05cm}
 \tableofcontents
 
 \newpage
-\vspace*{0.1cm}
+\vspace*{0.05cm}
 \listoffigures
 
 \newpage
-\vspace*{0.1cm}
+\vspace*{0.05cm}
 \input{src/intro.tex}
 
 \newpage
-\vspace*{0.1cm}
+\vspace*{0.05cm}
 \input{src/data_analysis.tex}
 
 \newpage
-\vspace*{0.1cm}
+\vspace*{0.05cm}
+\input{src/data_preparation.tex}
+
+\newpage
+\vspace*{0.05cm}
+\input{src/model_selection.tex}
+
+\newpage
+\vspace*{0.05cm}
+\input{src/model_tuning.tex}
+
+\newpage
+\vspace*{0.05cm}
 \input{src/conclusion.tex}
+
+\newpage
+% \addcontentsline{toc}{section}{Bibliography}
+\bibliographystyle{plain}
+\bibliography{bibliography.bib}
 
 \end{document}

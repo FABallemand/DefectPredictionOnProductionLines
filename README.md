@@ -2,13 +2,13 @@
 
 ## Project Description
 
-The goal of this project is to develop an AI based solution for a real life [industry problem faced by Valeo](https://challengedata.ens.fr/challenges/36).  
+The goal of this project is to develop an AI based solution for a real world [industry problem faced by Valeo](https://challengedata.ens.fr/challenges/36).  
 
-[Valeo](https://www.valeo.com/fr/) is an industry leading French automotive supplier. In order to stay competitive, the company want to develop a system that is able to identify defects on products before testing.  
+[Valeo](https://www.valeo.com/fr/) is an industry leading French automotive supplier. In order to stay competitive, the company wants to develop a system that is able to identify defects on products before testing.  
 
 Four files containing relevant data are available. The data are mainly values measured during production on different mounting stations as well as additional measures performed on test benches.
 
-The target is to find the best prediction : **Output = f (inputs)**.  
+The target is to find the best prediction: **Output = f (inputs)**  
 
 ## Data Description
 
