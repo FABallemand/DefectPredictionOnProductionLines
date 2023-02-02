@@ -1,10 +1,16 @@
 import numpy as np
 import pandas as pd
 import random as rd
+import matplotlib.pyplot as plt
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
+from sklearn.metrics import confusion_matrix, plot_confusion_matrix, precision_score, recall_score, f1_score, precision_recall_curve, roc_curve, roc_auc_score
 
 from sklearn.preprocessing import StandardScaler
+
+#=============================================================================#
+#==== DATA ===================================================================#
+#=============================================================================#
 
 def loadTrainingData(remove_id=False, remove_capuchon_insertion=False):
     """Load training data set.
@@ -162,3 +168,46 @@ def scaleInputData(X_train, X_test):
     X_test = scaler.transform(X_test)
 
     return X_train, X_test
+
+#=============================================================================#
+#==== MODEL ==================================================================#
+#=============================================================================#
+
+def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Model"):
+
+    fig, axs = plt.subplots(2, 2, figsize=(10,10))
+
+    # Cross validation
+    y_pred = cross_val_predict(model, X_train, y_train, cv = cross_validation)
+    print(y_pred)
+    y_score = cross_val_score(model, X_train, y_train, cv = cross_validation, scoring="accuracy")
+    print(y_score)
+
+    # Precision/Recall/F1
+    precision = precision_score(y_train, y_pred)
+    recall = recall_score(y_train, y_pred)
+    f1 = f1_score(y_train, y_pred)
+    print(precision, recall, f1)
+    # axs[1, 0].set_title("Precisions/Recall/F1")
+    axs[1, 0].axis('off')
+    axs[1, 0].table([["Precision", str(precision)],["Recall",str(recall)],["F1", str(f1)]], cellLoc='center', loc='center').set_fontsize(10)
+
+    # ROC
+    fpr, tpr, thresholds = roc_curve(y_train, y_pred)
+    axs[0, 1].set_title("ROC")
+    axs[0, 1].plot(fpr, tpr, linewidth=2)
+    axs[0, 1].plot([0,1],[0,1], 'k--')
+    axs[0, 1].axis([0,1,0,1])
+    # axs[0, 1].xlabel("False Positive Rate")
+    # axs[0, 1].ylabel("True Positive Rate")
+
+    #
+    axs[1, 1].axis('off')
+
+    # Confusion matrix
+    axs[0, 0].set_title("Confusion Matrix")
+    from sklearn import metrics
+    metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0,0])
+    
+    fig.suptitle(model_name + " Evaluation")
+    plt.show()
