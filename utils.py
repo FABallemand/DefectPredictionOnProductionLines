@@ -102,7 +102,7 @@ def balanceClassesByRemoving(train_input, train_output):
 
     return train_input, train_output
 
-def balanceClassesByDuplicating(train_input, train_output, modify=False):
+def balanceClassesByDuplicating(train_input, train_output, modify=False, id=False, nb_features=12, max_modif_rate=0.005):
     """Balance classes by duplicating some defective individuals so there is 50% valid and 50% defective individuals in the popualtion.
 
     Args:
@@ -126,7 +126,7 @@ def balanceClassesByDuplicating(train_input, train_output, modify=False):
         defective_individual_output = train_output.iloc[defect_index[i],:].to_frame().T
         if modify:
             # Slightly modify individual
-            modifyIndividual(defective_individual_input) # Maybe does not work (now dataframe)
+            modifyIndividual(defective_individual_input, id=id, nb_features=nb_features, max_modif_rate=max_modif_rate) # Maybe does not work (now dataframe)
         train_input = pd.concat([train_input, defective_individual_input,])
         train_output = pd.concat([train_output, defective_individual_output])
         i = (i + 1) % len(defect_index)
