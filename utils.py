@@ -175,39 +175,47 @@ def scaleInputData(X_train, X_test):
 
 def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Model"):
 
-    fig, axs = plt.subplots(2, 2, figsize=(10,10))
+    fig, axs = plt.subplots(1, 3, figsize=(20,10))
 
     # Cross validation
     y_pred = cross_val_predict(model, X_train, y_train, cv = cross_validation)
-    print(y_pred)
+    # print(y_pred)
     y_score = cross_val_score(model, X_train, y_train, cv = cross_validation, scoring="accuracy")
-    print(y_score)
+    # print(y_score)
 
     # Precision/Recall/F1
     precision = precision_score(y_train, y_pred)
     recall = recall_score(y_train, y_pred)
     f1 = f1_score(y_train, y_pred)
-    print(precision, recall, f1)
-    # axs[1, 0].set_title("Precisions/Recall/F1")
-    axs[1, 0].axis('off')
-    axs[1, 0].table([["Precision", str(precision)],["Recall",str(recall)],["F1", str(f1)]], cellLoc='center', loc='center').set_fontsize(10)
+    # axs[1].set_title("Precisions/Recall/F1")
+    axs[1].axis('off')
+    data = [["Accuracy (cv 1)", str(y_score[0])],
+        ["Accuracy (cv 2)", str(y_score[1])],
+        ["Accuracy (cv 3)", str(y_score[2])],
+        ["Accuracy (cv 4)", str(y_score[3])],
+        ["Accuracy (cv 5)", str(y_score[4])],
+        ["Average Accuray", str(np.mean(y_score))],
+        ["Accuracy Standar Deviation", str(np.std(y_score))],
+        ["Precision", str(precision)],
+        ["Recall",str(recall)],
+        ["F1", str(f1)]]
+    axs[1].table(data, cellLoc='center', loc='center').set_fontsize(10)
 
     # ROC
     fpr, tpr, thresholds = roc_curve(y_train, y_pred)
-    axs[0, 1].set_title("ROC")
-    axs[0, 1].plot(fpr, tpr, linewidth=2)
-    axs[0, 1].plot([0,1],[0,1], 'k--')
-    axs[0, 1].axis([0,1,0,1])
-    # axs[0, 1].xlabel("False Positive Rate")
-    # axs[0, 1].ylabel("True Positive Rate")
-
-    #
-    axs[1, 1].axis('off')
+    auc_score = roc_auc_score(y_train, y_pred)
+    axs[2].set_title("ROC (AUC score = " + str(auc_score) +")")
+    axs[2].plot(fpr, tpr, linewidth=2)
+    axs[2].plot([0,1],[0,1], 'k--')
+    axs[2].axis([0,1,0,1])
+    # axs[2].text(0.2, 0.1, "AUC = " + str(auc_score))
+    # axs[2].xlabel("False Positive Rate")
+    # axs[2].ylabel("True Positive Rate")
 
     # Confusion matrix
-    axs[0, 0].set_title("Confusion Matrix")
+    axs[0].set_title("Confusion Matrix")
     from sklearn import metrics
-    metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0,0])
+    metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
     
     fig.suptitle(model_name + " Evaluation")
     plt.show()
