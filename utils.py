@@ -1,14 +1,20 @@
+import numpy as np
 import pandas as pd
+import random as rd
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.preprocessing import StandardScaler
 
 def loadTrainingData(remove_id=False, remove_capuchon_insertion=False):
-    """Load training data set
+    """Load training data set.
 
     Args:
         remove_id (bool, optional): Remove the columns containing IDs. Defaults to False.
         remove_capuchon_insertion (bool, optional): remove the column containing "capuchon_insertion" values. Defaults to False.
 
     Returns:
-        (pandas.dataframe, pandas.dataframe): Training dataframes (input and output)
+        (pandas.dataframe, pandas.dataframe): Training dataframes (input and output).
     """
     # New features names
     input_header = {"PROC_TRACEINFO": "id",
@@ -35,9 +41,124 @@ def loadTrainingData(remove_id=False, remove_capuchon_insertion=False):
     # Remove "id" column
     if remove_id:
         train_input = train_input[train_input.columns[~train_input.columns.isin(["id"])]]
-        train_output = train_output["result"]
+        train_output = train_output[train_output.columns[~train_output.columns.isin(["id"])]]
     # remove "capuchon_insertion" column
     if remove_capuchon_insertion:
         train_input = train_input[train_input.columns[~train_input.columns.isin(["capuchon_insertion"])]]
 
     return train_input, train_output
+
+def modifyIndividual(individual, id=False, nb_features=12, max_modif_rate=0.005):
+    """Slightly modify an individual. Randomly select a number of features which value will be modified by a small percentage.
+
+    Args:
+        individual (pandas.dataframe): Row of a dataframe representing an individual.
+        id (bool, optional): ID of the individual. Defaults to False.
+        nb_features (int, optional): Number of features describing the individual. Defaults to 12.
+        modif_rate (float, optional): Maximum modification rate. Defaults to 0.005.
+
+    Returns:
+        pandas.dateframe: Row of a dataframe representing an individual.
+    """
+    # Select index to modify
+    to_modify = []
+    if id:
+        to_modify = np.choice(nb_features, rd.randint(1, nb_features), False)
+    else:
+        to_modify = np.choice(nb_features, rd.randint(0, nb_features-1), False)
+
+    # Idea 1: change by a value coherent with standard deviation or something
+    # 
+    # Idea 2 (implented): change by a given percentage
+    for i in to_modify:
+        individual[i] += rd.uniform(-max_modif_rate, max_modif_rate) * individual[i]
+    
+    return individual
+
+def balanceClassesByRemoving(train_input, train_output):
+    """Balance classes by removing some valid individuals so there is 50% valid and 50% defective individuals in the popualtion.
+
+    Args:
+        train_input (pandas.dataframe): Input dataframe.
+        train_output (pandas.dataframe): Output dataframe.
+
+    Returns:
+        (pandas.dataframe, pandas.dataframe): New dataframes (input and output) with balanced classes.
+    """
+    # Index
+    defect_index = train_output.index[train_output["result"] == 1].tolist()
+    valid_index = train_output.index[train_output["result"] == 0].tolist()
+
+    # Randomly remove some valid individuals
+    rd.shuffle(valid_index) # Shuffle in order to eliminate "production correlation"
+    train_input = train_input.iloc[valid_index[:len(defect_index)] + defect_index,:]
+    train_output = train_output.iloc[valid_index[:len(defect_index)] + defect_index,:]
+
+    return train_input, train_output
+
+def balanceClassesByDuplicating(train_input, train_output, modify=False):
+    """Balance classes by duplicating some defective individuals so there is 50% valid and 50% defective individuals in the popualtion.
+
+    Args:
+        train_input (pandas.dataframe): Input dataframe.
+        train_output (pandas.dataframe): Output dataframe.
+        modify (bool, optional): Modify individual when duplicating. Defaults to False.
+
+    Returns:
+        (pandas.dataframe, pandas.dataframe): New dataframes (input and output) with balanced classes.
+    """
+    # Index
+    defect_index = train_output.index[train_output["result"] == 1].tolist()
+    valid_index = train_output.index[train_output["result"] == 0].tolist()
+
+    # Duplicate defective individuals until classes proportion is 50%
+    nb_defect = len(defect_index)
+    nb_valid = len(valid_index)
+    i = 0
+    while nb_defect < nb_valid:
+        defective_individual_input = train_input.iloc[defect_index[i],:].to_frame().T
+        defective_individual_output = train_output.iloc[defect_index[i],:].to_frame().T
+        if modify:
+            # Slightly modify individual
+            modifyIndividual(defective_individual_input) # Maybe does not work (now dataframe)
+        train_input = pd.concat([train_input, defective_individual_input,])
+        train_output = pd.concat([train_output, defective_individual_output])
+        i = (i + 1) % len(defect_index)
+        nb_defect += 1
+
+    return train_input, train_output
+
+def splitTrain(train_input, train_output, test_size=0.3, random_state=42):
+    """Create training and testing dataframes.
+
+    Args:
+        train_input (pandas.dataframe): Input training dataframe.
+        train_output (pandas.dataframe): Output training dataframe.
+        test_size (float, optional): Proportion of global population used to create test set. Defaults to 0.3.
+        random_state (int, optional): Random state. Defaults to 42.
+
+    Returns:
+        pandas.dataframe: Input training dataframe.
+        pandas.dataframe: Input testing dataframe.
+        pandas.dataframe: Output training dataframe.
+        pandas.dataframe: Output testing dataframe.
+    """
+    X_train, X_test, y_train, y_test = train_test_split(train_input, train_output, test_size = test_size, random_state = random_state)
+    return X_train, X_test, y_train, y_test
+
+def scaleInputData(X_train, X_test):
+    """Scale input data.
+
+    Args:
+        X_train (pandas.dataframe): Input training dataframe.
+        X_test (pandas.dataframe): Input testing dataframe.
+
+    Returns:
+        (pandas.dataframe, pandas.dataframe): Scaled input training and testing dataframes.
+    """
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    X_train = scaler.transform(X_train)
+    X_test = scaler.transform(X_test)
+
+    return X_train, X_test
