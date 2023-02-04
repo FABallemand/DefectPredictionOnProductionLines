@@ -8,7 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 import utils
 
 # Load data
-train_input, train_output = utils.loadTrainingData(True, True)
+train_input, train_output = utils.loadTrainingData(remove_id=True, remove_capuchon_insertion=True)
 
 # Create model
 clf = GaussianNB()
@@ -17,5 +17,5 @@ clf = GaussianNB()
 # print(y_pred)
 
 # Evaluate model
-utils.modelEvaluation(clf, train_input, train_output["result"], model_name="Naive Bayes Classifier")
+utils.modelEvaluation(clf, train_input, train_output, model_name="Naive Bayes Classifier")
 

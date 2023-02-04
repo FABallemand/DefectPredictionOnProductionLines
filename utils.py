@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split, cross_val_score, cross_val
 from sklearn.metrics import confusion_matrix, plot_confusion_matrix, precision_score, recall_score, f1_score, precision_recall_curve, roc_curve, roc_auc_score
 
 from sklearn.preprocessing import StandardScaler
+from sklearn.base import clone
 
 #=============================================================================#
 #==== DATA ===================================================================#
@@ -173,37 +174,44 @@ def scaleInputData(X_train, X_test):
 #==== MODEL ==================================================================#
 #=============================================================================#
 
-def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Model", fig_name="unknown"):
+def modelEvaluation(model, train_input, train_output, cross_validation=5, model_name="Model", fig_name="unknown"):
 
     fig, axs = plt.subplots(1, 3, figsize=(20,10))
 
+    # Simple prediction
+    X_train, X_test, y_train, y_test = train_test_split(train_input, train_output, test_size = 0.3, random_state = 42)
+    model.fit(X_train, y_train["result"])
+    y_pred = model.predict(X_test)
+    # accuracy = metrics.accuracy_score(y_test, y_pred)
+
     # Cross validation
-    y_pred = cross_val_predict(model, X_train, y_train, cv = cross_validation)
+    cross_val_model = clone(model)
+    y_cross_pred = cross_val_predict(cross_val_model, train_input, train_output["result"], cv = cross_validation)
     # print(y_pred)
-    y_score = cross_val_score(model, X_train, y_train, cv = cross_validation, scoring="accuracy")
+    y_cross_score = cross_val_score(cross_val_model, train_input, train_output["result"], cv = cross_validation, scoring="accuracy")
     # print(y_score)
 
     # Precision/Recall/F1
-    precision = precision_score(y_train, y_pred)
-    recall = recall_score(y_train, y_pred)
-    f1 = f1_score(y_train, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
     # axs[1].set_title("Precisions/Recall/F1")
     axs[1].axis('off')
-    data = [["Accuracy (cv 1)", str(y_score[0])],
-        ["Accuracy (cv 2)", str(y_score[1])],
-        ["Accuracy (cv 3)", str(y_score[2])],
-        ["Accuracy (cv 4)", str(y_score[3])],
-        ["Accuracy (cv 5)", str(y_score[4])],
-        ["Average Accuray", str(np.mean(y_score))],
-        ["Accuracy Standar Deviation", str(np.std(y_score))],
+    data = [["Accuracy (cv 1)", str(y_cross_score[0])],
+        ["Accuracy (cv 2)", str(y_cross_score[1])],
+        ["Accuracy (cv 3)", str(y_cross_score[2])],
+        ["Accuracy (cv 4)", str(y_cross_score[3])],
+        ["Accuracy (cv 5)", str(y_cross_score[4])],
+        ["Average Accuray", str(np.mean(y_cross_score))],
+        ["Accuracy Standar Deviation", str(np.std(y_cross_score))],
         ["Precision", str(precision)],
         ["Recall",str(recall)],
         ["F1", str(f1)]]
     axs[1].table(data, cellLoc='center', loc='center').set_fontsize(10)
 
     # ROC
-    fpr, tpr, thresholds = roc_curve(y_train, y_pred)
-    auc_score = roc_auc_score(y_train, y_pred)
+    fpr, tpr, thresholds = roc_curve(y_test, y_pred)
+    auc_score = roc_auc_score(y_test, y_pred)
     axs[2].set_title("ROC (AUC score = " + str(auc_score) +")")
     axs[2].plot(fpr, tpr, linewidth=2)
     axs[2].plot([0,1],[0,1], 'k--')
@@ -216,7 +224,7 @@ def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Mod
     axs[0].set_title("Confusion Matrix")
     from sklearn import metrics
     # metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
-    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_train, y_pred),display_labels = [False, True]).plot(ax=axs[0])
+    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_test, y_pred),display_labels = [False, True]).plot(ax=axs[0])
     
     fig.suptitle(model_name + " Evaluation")
     plt.savefig("report/img/" + fig_name)
