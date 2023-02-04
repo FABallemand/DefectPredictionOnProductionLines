@@ -173,7 +173,7 @@ def scaleInputData(X_train, X_test):
 #==== MODEL ==================================================================#
 #=============================================================================#
 
-def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Model"):
+def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Model", fig_name="unknown"):
 
     fig, axs = plt.subplots(1, 3, figsize=(20,10))
 
@@ -215,7 +215,9 @@ def modelEvaluation(model, X_train, y_train, cross_validation=5, model_name="Mod
     # Confusion matrix
     axs[0].set_title("Confusion Matrix")
     from sklearn import metrics
-    metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
+    # metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
+    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_train, y_pred),display_labels = [False, True]).plot(ax=axs[0])
     
     fig.suptitle(model_name + " Evaluation")
+    plt.savefig("report/img/" + fig_name)
     plt.show()
