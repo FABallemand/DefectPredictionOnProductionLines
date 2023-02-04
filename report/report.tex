@@ -121,38 +121,45 @@
 \end{figure}
 
 \newpage
-\vspace*{0.05cm}
+\myemptypage
+
+\pagenumbering{roman}
+
+\newpage
+\vspace*{0.01cm}
+\input{src/abstract.tex}
+
+\newpage
+\vspace*{0.01cm}
 \tableofcontents
 
 \newpage
-\vspace*{0.05cm}
+\vspace*{0.01cm}
 \listoffigures
 
 \newpage
-\vspace*{0.05cm}
+\pagenumbering{arabic}
+
+\vspace*{0.01cm}
 \input{src/intro.tex}
 
-\newpage
-\vspace*{0.05cm}
+\vspace*{0.01cm}
 \input{src/data_analysis.tex}
 
-\newpage
-\vspace*{0.05cm}
+\vspace*{0.01cm}
 \input{src/data_preparation.tex}
 
-\newpage
-\vspace*{0.05cm}
+\vspace*{0.01cm}
 \input{src/model_selection.tex}
 
-\newpage
-\vspace*{0.05cm}
+\vspace*{0.01cm}
 \input{src/model_tuning.tex}
 
-\newpage
-\vspace*{0.05cm}
+\vspace*{0.01cm}
 \input{src/conclusion.tex}
 
 \newpage
+\vspace*{0.01cm}
 % \addcontentsline{toc}{section}{Bibliography}
 \bibliographystyle{plain}
 \bibliography{bibliography.bib}

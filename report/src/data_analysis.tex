@@ -1,8 +1,8 @@
 \section{Data Analysis}
-Data is contained in four different comma-separated values (csv) files: inputs and output for both training and testing. We will take a first look a the data in order to understand what it represents, then we will proceed to an in-depth analysis of said data.
+The goal of this section is to take a first look a the data in order to understand what it represents, then proceed to an in-depth analysis of said data.
 
 \subsection{Data Description}
-The very first line of each file correspond to the headers. The following lines contain informations about a given product where each product is identified by a unique code:\\
+Data is contained in four different comma-separated values (csv) files: inputs and output for both training and testing. The very first line of each file correspond to the headers. The following lines contain informations about a given product where each product is identified by a unique code:\\
 
 \textbf{ID} = \textbf{PROC\_TRACEINFO} = It's a unique code given to the product.\\
 Example: I-B-XA1207672-190701-00494.
@@ -27,14 +27,21 @@ The training data consists of 13 measures (inputs features) made during producti
 \begin{figure}
     \center
     \includegraphics[scale=.38]{img/data_analysis_1.png}
-    \caption{Distributions of input features}
+    \caption{Distributions of the input features}
     \label{data_analysis_1}
 \end{figure}
 
-We can see that there might be some outliers...\\
+An in-depth look at the box-plots (Figure \ref{data_analysis_2}) reveals that there might be some outliers in the dataset.\\
+
+\begin{figure}
+    \center
+    \includegraphics[scale=.5]{img/data_analysis_2.png}
+    \caption{Box-plot of the \textit{snap\_ring\_final\_stroke} feature}
+    \label{data_analysis_2}
+\end{figure}
 
 One feature requires more attention. \textsf{capuchon\_insertion} is the only feature containing missing values. In fact, more than 50\% of the sample population are missing this value.\\
 
 % PCA, relevant?
 
-The training data also contains the result value of the test bench for each product tested on the production line. As expected, there are only a few of defective items. Although this is good for the company, it is not so good for us as less than 1\% of the training population are defective items. The effectives of the two classes are very unbalanced which could really impact our models.
+The training data also contains the result value of the test bench for each product tested on the production line. As expected, there are only a few of defective items. Although this is good for the company, it means that less than 1\% of the training population are defective items. The effectives of the two classes are very unbalanced which could really impact our models.
