@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 #==== DATA ===================================================================#
 #=============================================================================#
 
-def loadTrainingData(remove_id=False, remove_capuchon_insertion=False):
+def loadTrainingData(train_inputs="data/train_inputs.csv", train_output="data/train_output.csv", remove_id=False, remove_capuchon_insertion=False):
     """Load training data set.
 
     Args:
@@ -41,8 +41,8 @@ def loadTrainingData(remove_id=False, remove_capuchon_insertion=False):
                      "Binar OP130_Resultat_Global_v": "result"}
 
     # Load data and rename columns
-    train_input = pd.read_csv("data/train_inputs.csv", header=0).rename(columns=input_header)
-    train_output = pd.read_csv("data/train_output.csv", header=0).rename(columns=output_header)
+    train_input = pd.read_csv(train_inputs, header=0).rename(columns=input_header)
+    train_output = pd.read_csv(train_output, header=0).rename(columns=output_header)
 
     # Remove "id" column
     if remove_id:
@@ -67,17 +67,17 @@ def modifyIndividual(individual, id=False, nb_features=12, max_modif_rate=0.005)
         pandas.dateframe: Row of a dataframe representing an individual.
     """
     # Select index to modify
-    to_modify = []
+    to_modify = [] # USE FEATURE NAME INSTEAD
     if id:
-        to_modify = np.choice(nb_features, rd.randint(1, nb_features), False)
+        to_modify = np.random.choice(nb_features, rd.randint(1, nb_features), False)
     else:
-        to_modify = np.choice(nb_features, rd.randint(0, nb_features-1), False)
+        to_modify = np.random.choice(nb_features, rd.randint(0, nb_features-1), False)
 
     # Idea 1: change by a value coherent with standard deviation or something
     # 
     # Idea 2 (implented): change by a given percentage
     for i in to_modify:
-        individual[i] += rd.uniform(-max_modif_rate, max_modif_rate) * individual[i]
+        individual.iloc[0, i] += rd.uniform(-max_modif_rate, max_modif_rate) * individual.iloc[0, i]
     
     return individual
 
