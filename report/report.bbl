@@ -10,4 +10,17 @@ Valeo.
 \newblock \url{https://www.valeo.com/fr/}.
 \newblock Accessed: 2023.
 
+\bibitem{nbc_scikit}
+Scikit-Learn.
+\newblock Naive bayes.
+\newblock \url{https://scikit-learn.org/stable/modules/naive_bayes.html}.
+\newblock Accessed: 2023.
+
+\bibitem{nbcg_scikit}
+Scikit-Learn.
+\newblock sklearn.naive\_bayes.gaussiannb.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html}.
+\newblock Accessed: 2023.
+
 \end{thebibliography}

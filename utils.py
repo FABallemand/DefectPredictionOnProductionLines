@@ -3,9 +3,9 @@ import pandas as pd
 import random as rd
 import matplotlib.pyplot as plt
 
-from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
-from sklearn.metrics import confusion_matrix, plot_confusion_matrix, precision_score, recall_score, f1_score, precision_recall_curve, roc_curve, roc_auc_score
-
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score, cross_val_predict
+from sklearn.metrics import accuracy_score, confusion_matrix, plot_confusion_matrix, precision_score, recall_score, f1_score, precision_recall_curve, roc_curve, roc_auc_score
+from sklearn.metrics import ConfusionMatrixDisplay,RocCurveDisplay
 from sklearn.preprocessing import StandardScaler
 from sklearn.base import clone
 
@@ -174,7 +174,116 @@ def scaleInputData(X_train, X_test):
 #==== MODEL ==================================================================#
 #=============================================================================#
 
-def modelEvaluation(model, train_input, train_output, cross_validation=5, model_name="Model", fig_name="unknown"):
+def modelEvaluation(clf, train_input, train_output, cross_validation=5, model_name="Model", fig_name="unknown", imbalanced_classes=True):
+    
+    fig, axs = plt.subplots(1, 4, figsize=(20,10))
+
+    accuracy = []
+    precision = []
+    recall = []
+    f1 = []
+    conf_matrix = []
+    roc_score = []
+    ROC_curve = []
+
+    skfolds = StratifiedKFold(n_splits=cross_validation, shuffle=True, random_state=42)
+
+    for train_index, test_index in skfolds.split(train_input, train_output):
+        clone_clf = clone(clf) # Clone classifier
+        X_train_folds = train_input.iloc[train_index,:] # Training input
+        y_train_folds = train_output.iloc[train_index,:] # Training output
+        X_test_fold = train_input.iloc[test_index,:] # Testing input
+        y_test_fold = train_output.iloc[test_index,:] # Testing output
+
+        clone_clf.fit(X_train_folds, y_train_folds["result"])
+        y_pred = clone_clf.predict(X_test_fold)
+
+        accuracy.append(accuracy_score(y_test_fold, y_pred))
+        precision.append(precision_score(y_test_fold, y_pred))
+        recall.append(recall_score(y_test_fold, y_pred))
+        f1.append(f1_score(y_test_fold, y_pred))
+        conf_matrix.append(confusion_matrix(y_test_fold, y_pred))
+        roc_score.append(roc_auc_score(y_test_fold, y_pred))
+        ROC_curve.append(RocCurveDisplay.from_estimator(clone_clf, X_test_fold, y_test_fold, ax=axs[3]))
+
+    # Confusion matrix
+    tn = 0
+    fp = 0
+    fn = 0
+    tp = 0
+    for i in range(cross_validation):
+        tn_, fp_, fn_, tp_ = conf_matrix[i].ravel()
+        tn += tn_
+        fp += fp_
+        fn += fn_
+        tp += tp_
+    tn /= cross_validation
+    fp /= cross_validation
+    fn /= cross_validation
+    tp /= cross_validation
+    average_confusion_matrix = np.array([[tn, fp],[fn, tp]])
+    axs[0].set_title("Average Confusion Matrix")
+    ConfusionMatrixDisplay(average_confusion_matrix, display_labels = [False, True]).plot(ax=axs[0])
+
+    # Accuracy
+    axs[1].axis('off')
+    accuracy_data = [["Accuracy (cv 1)", str(accuracy[0])],
+        ["Accuracy (cv 2)", str(accuracy[1])],
+        ["Accuracy (cv 3)", str(accuracy[2])],
+        ["Accuracy (cv 4)", str(accuracy[3])],
+        ["Accuracy (cv 5)", str(accuracy[4])],
+        ["Average Accuray", str(np.mean(accuracy))],
+        ["Accuracy Standar Deviation", str(np.std(accuracy))]]
+    axs[1].table(accuracy_data, cellLoc='center', loc='center').set_fontsize(10)
+
+    # Precision/Recall/F1
+    axs[2].axis('off')
+    data = [["Precision (cv 1)", str(precision[0])],
+        ["Precision (cv 2)", str(precision[1])],
+        ["Precision (cv 3)", str(precision[2])],
+        ["Precision (cv 4)", str(precision[3])],
+        ["Precision (cv 5)", str(precision[4])],
+        ["Average Precision", str(np.mean(precision))],
+        ["Precision Standar Deviation", str(np.std(precision))],
+            ["",""],
+        ["Recall (cv 1)", str(recall[0])],
+        ["Recall (cv 2)", str(recall[1])],
+        ["Recall (cv 3)", str(recall[2])],
+        ["Recall (cv 4)", str(recall[3])],
+        ["Recall (cv 5)", str(recall[4])],
+        ["Average Recall", str(np.mean(recall))],
+        ["Recall Standar Deviation", str(np.std(recall))],
+            ["",""],
+        ["F1 (cv 1)", str(f1[0])],
+        ["F1 (cv 2)", str(f1[1])],
+        ["F1 (cv 3)", str(f1[2])],
+        ["F1 (cv 4)", str(f1[3])],
+        ["F1 (cv 5)", str(f1[4])],
+        ["Average F1", str(np.mean(f1))],
+        ["F1 Standar Deviation", str(np.std(f1))]]
+    axs[2].table(data, cellLoc='center', loc='center').set_fontsize(10)
+
+    if imbalanced_classes:
+        # ROC
+        average_roc_auc_score = 0
+        axs[3].plot([0,1],[0,1], 'k--')
+        axs[3].axis([0,1,0,1])
+        axs[3].set_xlabel("False Positive Rate")
+        axs[3].set_ylabel("True Positive Rate")
+        for i in range(cross_validation):
+            average_roc_auc_score += roc_score[i]            
+            # ROC_curve[i].plot(ax=axs[3])
+        average_roc_auc_score /= cross_validation
+        axs[3].set_title("ROC (Average AUC score = " + str(average_roc_auc_score) +")")
+    else:
+        # PR
+        pass
+
+    fig.suptitle(model_name + " Evaluation")
+    plt.savefig("report/img/" + fig_name)
+    plt.show()
+
+def modelEvaluation_old(model, train_input, train_output, cross_validation=5, model_name="Model", fig_name="unknown"):
 
     fig, axs = plt.subplots(1, 3, figsize=(20,10))
 
@@ -182,7 +291,6 @@ def modelEvaluation(model, train_input, train_output, cross_validation=5, model_
     X_train, X_test, y_train, y_test = train_test_split(train_input, train_output, test_size = 0.3, random_state = 42)
     model.fit(X_train, y_train["result"])
     y_pred = model.predict(X_test)
-    # accuracy = metrics.accuracy_score(y_test, y_pred)
 
     # Cross validation
     cross_val_model = clone(model)
@@ -216,6 +324,8 @@ def modelEvaluation(model, train_input, train_output, cross_validation=5, model_
     axs[2].plot(fpr, tpr, linewidth=2)
     axs[2].plot([0,1],[0,1], 'k--')
     axs[2].axis([0,1,0,1])
+    axs[2].set_xlabel("False Positive Rate")
+    axs[2].set_ylabel("True Positive Rate")
     # axs[2].text(0.2, 0.1, "AUC = " + str(auc_score))
     # axs[2].xlabel("False Positive Rate")
     # axs[2].ylabel("True Positive Rate")
@@ -224,7 +334,7 @@ def modelEvaluation(model, train_input, train_output, cross_validation=5, model_
     axs[0].set_title("Confusion Matrix")
     from sklearn import metrics
     # metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
-    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_test, y_pred),display_labels = [False, True]).plot(ax=axs[0])
+    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_test, y_pred), display_labels = [False, True]).plot(ax=axs[0])
     
     fig.suptitle(model_name + " Evaluation")
     plt.savefig("report/img/" + fig_name)
