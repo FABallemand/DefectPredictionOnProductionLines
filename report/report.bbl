@@ -23,4 +23,10 @@ Scikit-Learn.
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html}.
 \newblock Accessed: 2023.
 
+\bibitem{knn_wikipedia}
+Wikipedia.
+\newblock k-nearest neighbors algorithm.
+\newblock \url{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}.
+\newblock Accessed: 2023.
+
 \end{thebibliography}

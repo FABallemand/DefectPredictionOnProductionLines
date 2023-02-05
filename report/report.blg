@@ -5,45 +5,45 @@ The style file: plain.bst
 Database file #1: bibliography.bib
 Warning--to sort, need author or key in project
 Warning--to sort, need author or key in valeo
-You've used 4 entries,
+You've used 5 entries,
             2118 wiz_defined-function locations,
-            511 strings with 4384 characters,
-and the built_in function-call counts, 782 in all, are:
-= -- 76
-> -- 16
+            515 strings with 4500 characters,
+and the built_in function-call counts, 995 in all, are:
+= -- 97
+> -- 23
 < -- 0
-+ -- 8
-- -- 4
-* -- 22
-:= -- 119
-add.period$ -- 14
-call.type$ -- 4
-change.case$ -- 14
++ -- 11
+- -- 6
+* -- 27
+:= -- 155
+add.period$ -- 18
+call.type$ -- 5
+change.case$ -- 18
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 28
-empty$ -- 91
-format.name$ -- 4
-if$ -- 179
+cite$ -- 7
+duplicate$ -- 35
+empty$ -- 113
+format.name$ -- 6
+if$ -- 226
 int.to.chr$ -- 0
-int.to.str$ -- 4
+int.to.str$ -- 5
 missing$ -- 0
-newline$ -- 25
-num.names$ -- 4
-pop$ -- 40
+newline$ -- 31
+num.names$ -- 6
+pop$ -- 50
 preamble$ -- 1
-purify$ -- 10
+purify$ -- 13
 quote$ -- 0
-skip$ -- 20
+skip$ -- 25
 stack$ -- 0
-substring$ -- 20
-swap$ -- 4
+substring$ -- 25
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
+type$ -- 20
 warning$ -- 2
-while$ -- 4
-width$ -- 5
-write$ -- 42
+while$ -- 6
+width$ -- 6
+write$ -- 53
 (There were 2 warnings)

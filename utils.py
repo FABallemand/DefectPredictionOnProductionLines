@@ -227,41 +227,47 @@ def modelEvaluation(clf, train_input, train_output, cross_validation=5, model_na
 
     # Accuracy
     axs[1].axis('off')
-    accuracy_data = [["Accuracy (cv 1)", str(accuracy[0])],
-        ["Accuracy (cv 2)", str(accuracy[1])],
-        ["Accuracy (cv 3)", str(accuracy[2])],
-        ["Accuracy (cv 4)", str(accuracy[3])],
-        ["Accuracy (cv 5)", str(accuracy[4])],
-        ["Average Accuray", str(np.mean(accuracy))],
-        ["Accuracy Standar Deviation", str(np.std(accuracy))]]
-    axs[1].table(accuracy_data, cellLoc='center', loc='center').set_fontsize(10)
+    accuracy_data = [["Accuracy (cv 1)", f'{accuracy[0]:.9f}'],
+        ["Accuracy (cv 2)", f'{accuracy[1]:.9f}'],
+        ["Accuracy (cv 3)", f'{accuracy[2]:.9f}'],
+        ["Accuracy (cv 4)", f'{accuracy[3]:.9f}'],
+        ["Accuracy (cv 5)", f'{accuracy[4]:.9f}'],
+        ["Average Accuray", f'{np.mean(accuracy):.9f}'],
+        ["Accuracy Std. Deviation", f'{np.std(accuracy):.9f}']]
+    table_1 = axs[1].table(accuracy_data, cellLoc='center', loc='center')
+    table_1.scale(1, 1.5)
+    table_1.auto_set_font_size(False)
+    table_1.set_fontsize(10)
 
     # Precision/Recall/F1
     axs[2].axis('off')
-    data = [["Precision (cv 1)", str(precision[0])],
-        ["Precision (cv 2)", str(precision[1])],
-        ["Precision (cv 3)", str(precision[2])],
-        ["Precision (cv 4)", str(precision[3])],
-        ["Precision (cv 5)", str(precision[4])],
-        ["Average Precision", str(np.mean(precision))],
-        ["Precision Standar Deviation", str(np.std(precision))],
+    data = [["Precision (cv 1)", f'{precision[0]:.9f}'],
+        ["Precision (cv 2)", f'{precision[1]:.9f}'],
+        ["Precision (cv 3)", f'{precision[2]:.9f}'],
+        ["Precision (cv 4)", f'{precision[3]:.9f}'],
+        ["Precision (cv 5)", f'{precision[4]:.9f}'],
+        ["Average Precision", f'{np.mean(precision):.9f}'],
+        ["Precision Std. Deviation", f'{np.std(precision):.9f}'],
             ["",""],
-        ["Recall (cv 1)", str(recall[0])],
-        ["Recall (cv 2)", str(recall[1])],
-        ["Recall (cv 3)", str(recall[2])],
-        ["Recall (cv 4)", str(recall[3])],
-        ["Recall (cv 5)", str(recall[4])],
-        ["Average Recall", str(np.mean(recall))],
-        ["Recall Standar Deviation", str(np.std(recall))],
+        ["Recall (cv 1)", f'{recall[0]:.9f}'],
+        ["Recall (cv 2)", f'{recall[1]:.9f}'],
+        ["Recall (cv 3)", f'{recall[2]:.9f}'],
+        ["Recall (cv 4)", f'{recall[3]:.9f}'],
+        ["Recall (cv 5)", f'{recall[4]:.9f}'],
+        ["Average Recall", f'{np.mean(recall):.9f}'],
+        ["Recall Std. Deviation", f'{np.std(recall):.9f}'],
             ["",""],
-        ["F1 (cv 1)", str(f1[0])],
-        ["F1 (cv 2)", str(f1[1])],
-        ["F1 (cv 3)", str(f1[2])],
-        ["F1 (cv 4)", str(f1[3])],
-        ["F1 (cv 5)", str(f1[4])],
-        ["Average F1", str(np.mean(f1))],
-        ["F1 Standar Deviation", str(np.std(f1))]]
-    axs[2].table(data, cellLoc='center', loc='center').set_fontsize(10)
+        ["F1 (cv 1)", f'{f1[0]:.9f}'],
+        ["F1 (cv 2)", f'{f1[1]:.9f}'],
+        ["F1 (cv 3)", f'{f1[2]:.9f}'],
+        ["F1 (cv 4)", f'{f1[3]:.9f}'],
+        ["F1 (cv 5)", f'{f1[4]:.9f}'],
+        ["Average F1", f'{np.mean(f1):.9f}'],
+        ["F1 Std. Deviation", f'{np.std(f1):.9f}']]
+    table_2 = axs[2].table(data, cellLoc='center', loc='center')
+    table_2.scale(1, 1.5)
+    table_2.auto_set_font_size(False)
+    table_2.set_fontsize(10)
 
     if imbalanced_classes:
         # ROC
