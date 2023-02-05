@@ -16,11 +16,31 @@ Scikit-Learn.
 \newblock \url{https://scikit-learn.org/stable/modules/naive_bayes.html}.
 \newblock Accessed: 2023.
 
+\bibitem{rfc_scikit}
+Scikit-Learn.
+\newblock sklearn.ensemble.randomforestclassifier.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html}.
+\newblock Accessed: 2023.
+
 \bibitem{nbcg_scikit}
 Scikit-Learn.
 \newblock sklearn.naive\_bayes.gaussiannb.
 \newblock
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html}.
+\newblock Accessed: 2023.
+
+\bibitem{knn_scikit}
+Scikit-Learn.
+\newblock sklearn.neighbors.kneighborsclassifier.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html}.
+\newblock Accessed: 2023.
+
+\bibitem{dtl_wikipedia}
+Wikipedia.
+\newblock Decision tree learning.
+\newblock \url{https://en.wikipedia.org/wiki/Decision_tree_learning}.
 \newblock Accessed: 2023.
 
 \bibitem{knn_wikipedia}

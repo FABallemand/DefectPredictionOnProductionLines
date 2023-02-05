@@ -3,47 +3,48 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: report.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
+Warning--I didn't find a database entry for "rdf_wikipedia"
 Warning--to sort, need author or key in project
 Warning--to sort, need author or key in valeo
-You've used 5 entries,
+You've used 8 entries,
             2118 wiz_defined-function locations,
-            515 strings with 4500 characters,
-and the built_in function-call counts, 995 in all, are:
-= -- 97
-> -- 23
+            525 strings with 4902 characters,
+and the built_in function-call counts, 1634 in all, are:
+= -- 160
+> -- 44
 < -- 0
-+ -- 11
-- -- 6
-* -- 27
-:= -- 155
-add.period$ -- 18
-call.type$ -- 5
-change.case$ -- 18
++ -- 20
+- -- 12
+* -- 42
+:= -- 263
+add.period$ -- 30
+call.type$ -- 8
+change.case$ -- 30
 chr.to.int$ -- 0
-cite$ -- 7
-duplicate$ -- 35
-empty$ -- 113
-format.name$ -- 6
-if$ -- 226
+cite$ -- 10
+duplicate$ -- 56
+empty$ -- 179
+format.name$ -- 12
+if$ -- 367
 int.to.chr$ -- 0
-int.to.str$ -- 5
+int.to.str$ -- 8
 missing$ -- 0
-newline$ -- 31
-num.names$ -- 6
-pop$ -- 50
+newline$ -- 49
+num.names$ -- 12
+pop$ -- 80
 preamble$ -- 1
-purify$ -- 13
+purify$ -- 22
 quote$ -- 0
-skip$ -- 25
+skip$ -- 40
 stack$ -- 0
-substring$ -- 25
-swap$ -- 5
+substring$ -- 40
+swap$ -- 8
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 20
+type$ -- 32
 warning$ -- 2
-while$ -- 6
-width$ -- 6
-write$ -- 53
-(There were 2 warnings)
+while$ -- 12
+width$ -- 9
+write$ -- 86
+(There were 3 warnings)

@@ -223,7 +223,7 @@ def modelEvaluation(clf, train_input, train_output, cross_validation=5, model_na
     tp /= cross_validation
     average_confusion_matrix = np.array([[tn, fp],[fn, tp]])
     axs[0].set_title("Average Confusion Matrix")
-    ConfusionMatrixDisplay(average_confusion_matrix, display_labels = [False, True]).plot(ax=axs[0])
+    ConfusionMatrixDisplay(average_confusion_matrix, display_labels = [0, 1]).plot(ax=axs[0])
 
     # Accuracy
     axs[1].axis('off')
@@ -340,7 +340,7 @@ def modelEvaluation_old(model, train_input, train_output, cross_validation=5, mo
     axs[0].set_title("Confusion Matrix")
     from sklearn import metrics
     # metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
-    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_test, y_pred), display_labels = [False, True]).plot(ax=axs[0])
+    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_test, y_pred), display_labels = [0, 1]).plot(ax=axs[0])
     
     fig.suptitle(model_name + " Evaluation")
     plt.savefig("report/img/" + fig_name)
