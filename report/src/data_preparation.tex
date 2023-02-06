@@ -1,5 +1,5 @@
 \section{Data Preparation}
-The data analysis performed in the previous section revealed some flaws in the dataset. The two most noticeables are the presence of outliers and the population imbalance between the two classes. These two flaws are known for harming the learning of most ML models. Differents attemps at solving these issues are presented in this section.
+The data analysis performed in the previous section revealed some flaws in the dataset. The two most noticeable are the presence of outliers and the population imbalance between the two classes. These two flaws are known for harming the learning of most ML models. Different attemps at solving these issues are presented in this section.
 
 \subsection{Outliers}
 
@@ -8,7 +8,7 @@ The data analysis performed in the previous section revealed some flaws in the d
 The following paragraphs deal with class balancing, explaining the importance of balanced classes and three different approaches two rectify the imbalance.\\
 
 As said in the previous section, a mere 0.008\% of the population is defective individuals. In other words, the class of individuals which needs to be detected is truly under-represented in the dataset.
-Without any pre-processing such a dataset is very unlikely to give good results with most of the ML models. As shown in Figure \ref{data_preparation_1}, there are not enough defective individuals for the classfifier to properly learn how to distinguish a defective individual from a valid individual. As a result, the classifier simply over-fit the valid class.\\
+Without any pre-processing such a dataset is very unlikely to give good results with most of the ML models. As shown in Figure \ref{data_preparation_1}, there are not enough defective individuals for the classifier to properly learn how to distinguish a defective individual from a valid individual. As a result, the classifier simply over-fit the valid class.\\
 
 \noindent
 \begin{minipage}[!hc]{0.12\textwidth}
@@ -25,11 +25,10 @@ Over-fitting the over-represented class is very hazardous as the accuracy of the
     \label{data_preparation_1}
 \end{figure}
 
-The easiest method to deal with unbalanced classes is to remove valid individuals from the training dataset. This process is fairly straight forward (valid individuals can be randomly selected in the dataset) and does not require a lot of processing (selected individuals are simply removed).\\
+The easiest method to deal with unbalanced classes is to remove valid individuals from the training dataset. This process is fairly straight forward (valid individuals can be randomly selected in the dataset) and does not require a lot of processing (selected individuals are simply deleted).\\
 Figure \ref{data_preparation_2} clearly shows that the classifier is not over-fitting the valid class anymore. In that sense, the results are better but they are still far from what is expected from a performant classifier.\\
-This method is very arguable for two reasons.\\
-Deleting individuals obviously implies a loss of data. Eventhough the individuals are randomly selected, some important features can disappear. In other words, the remaining data is not necessarily representative of the global population.\\
-On top of that, the resulting dataset is smaller meaning the model will have less instances to learn on. In this problem, this will dramatically impact the results because there is already few data.\\
+
+This method is very arguable for two reasons. First, deleting individuals obviously implies a loss of data. Eventhough the individuals are randomly selected, some important features can disappear. In other words, the remaining data is not necessarily representative of the global population. On top of that, the resulting dataset is smaller meaning the model will have less instances to learn on. In this problem, this will dramatically impact the results because there is already few data.\\
 
 \begin{figure}
     \center
