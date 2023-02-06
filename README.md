@@ -28,18 +28,7 @@ This number is increased by 1 each time we process a new product, every 12 secon
 ## To do list:
 
 - Improve model performance (remove outliers, adding data, select most relevant features)  
-- Decision trees & random forests  
-- Add description, advantages and drawbacks for each method  
-- Weight on loss function  
-- Data augmentation  
 - Smote  
-- Anomaly detection (good because it will also work on anomalies that are not in the training data)  
-
-- Precision/REcall -> Unbalanced
-- ROC -> Balanced  
-
-- Abstract  
-- Redo intro  
 
 ## Team
 
