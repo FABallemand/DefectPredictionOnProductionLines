@@ -61,5 +61,60 @@ While these results look great for now it remains to be seen if the forest is ac
 \end{figure}
 
 \subsection{Multi-Layer Perceptron}
+Multilayer Perceptron is part of the non-linear supervised learning branch. MLPs are characterised by iterative learning on the perceptrons present in the network layers, in our case the network will be composed of an input layer with 12 perceptrons and an output layer with one perceptron.
+We therefore used the MLPClassifier function in the sklearn library and set the following hyperparameters:
+
+\begin{itemize}
+    \item hidden\_layer\_sizes : represents the number of neurons in the each hidden layer
+    \item activation : activation function for the hidden layer
+    \item solver : the solver for weight optimization
+    \item alpha : strength of the L2 regularization term
+    \item batch\_size : size of minibatches for stochastic optimizers.
+    \item learning\_rate : learning rate schedule for weight updates
+    \item max\_iter : maximum number of iterations
+    \item random\_state : determines random number generation for weights and bias initialization
+    \item early\_stopping : terminate training when validation score is not improving
+    \item n\_iter\_no\_change : Maximum number of epochs to not meet tolerance for the optimization \((10^{-4})\) improvement 
+\end{itemize}
+
+It is important to note that in the sklearn module, it is not possible to modify the cost function, which by default is the LogLoss function, which will minimize the inverse of the log likelihood.
+
+\begin{figure}
+    \center
+    \includegraphics[scale=0.32]{img/logloss.png}
+    \caption{LogLoss function}
+    \label{logloss}
+\end{figure}
+The loss is calculated for each batch, m is the value of the batch size, \(y_i\) is the output of the neural network and \(p_i\) is the associated probability.
+There is no precise method to anticipate the most relevant hyperparameters, the only way is to test several combinations by changing only one hyperparameter at a time and to observe the performance of the network on our data according to these. So we did this and initially took the parameters summarised in the (quote table)
+
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Hyperparameters} & \textbf{Selected value} \\ \hline
+        hidden\_layer\_sizes & (200,150,100,50) \\ \hline
+        activation  & hyperbolic tangent \\ \hline
+        solver & stochastic gradient descent \\ \hline
+        alpha & \(10^{-2}\)  \\ \hline
+        batch\_size & 32 \\ \hline
+        learning\_rate & adaptive \\ \hline
+        max\_iter & 2000 \\ \hline
+        random\_state & 1 \\ \hline
+        early\_stopping & True \\ \hline
+        n\_iter\_no\_change & 15\\ \hline
+    \end{tabular}
+\end{center}
+
+We evaluate our MLP's performance on Balanced classes obtained by removing individuals.
+
+\begin{figure}
+    \centering
+    \subfloat[Confusion Matrix]{\includegraphics[scale=0.32\columnwidth]{conf_mlp.png}}
+    \qquad
+    \subfloat[ROC Curve]{\includegraphics[scale=0.32\columnwidth]{roc_mlp.png}}
+    \caption{MLP Classifier Evaluation}
+    \label{mlp}
+\end{figure}
+
 
 \subsection{Novelty Detection}
