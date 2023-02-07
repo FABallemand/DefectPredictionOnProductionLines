@@ -49,4 +49,10 @@ Wikipedia.
 \newblock \url{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}.
 \newblock Accessed: 2023.
 
+\bibitem{rfc_wikipedia}
+Wikipedia.
+\newblock Random forest.
+\newblock \url{https://en.wikipedia.org/wiki/Random_forest}.
+\newblock Accessed: 2023.
+
 \end{thebibliography}
