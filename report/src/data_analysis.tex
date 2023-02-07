@@ -22,26 +22,56 @@ This is the result value of OP130 (test bench). Value 0 is assigned to OK sample
 
 Let us put the testing data aside for now and take a closer look a the training data.\\
 
-The training data consists of 13 measures (inputs features) made during production line on just shy of 35000 products. This measures correpond to various forces, angles, screwing torques... By taking a look at the distribution for each feature (Figure \ref{data_analysis_1}) we can clearly see that every one of them has a different shape.\\
+The training data consists of 13 measures (inputs features) made during production line on just shy of 35000 products. This measures correpond to various forces, angles, screwing torques... By taking a look at the distribution for each feature (Figure \ref{distrib}) we can clearly see that every one of them has a different shape.\\
 
 \begin{figure}
     \center
-    \includegraphics[scale=.38]{img/data_analysis_1.png}
+    \includegraphics[scale=.38]{img/features_distributions.png}
     \caption{Distributions of the input features}
-    \label{data_analysis_1}
+    \label{distrib}
 \end{figure}
 
-An in-depth look at the box-plots (Figure \ref{data_analysis_2}) reveals that there might be some outliers in the dataset.\\
+A quick glance at the pairwise correlation matrix reveals that there are no obvious correlation between any features (Figure \ref{corr}).
 
 \begin{figure}
     \center
-    \includegraphics[scale=.5]{img/data_analysis_2.png}
-    \caption{Box-plot of the \textit{snap\_ring\_final\_stroke} feature}
-    \label{data_analysis_2}
+    \includegraphics[scale=.15]{img/correlation_matrix.png}
+    \caption{Features pairwise correlation matrix}
+    \label{corr}
 \end{figure}
 
-One feature requires more attention. \textsf{capuchon\_insertion} is the only feature containing missing values. In fact, more than 50\% of the sample population are missing this value.\\
+Looking at the results of a PCA (Figure \ref{pca3} \ref{pca2}) or at multiple histograms (with items grouped by class for each feature, as displayed in Figure \ref{hist}), there is no feature that clearly helps separating the two classes.
 
-% PCA, relevant?
+\begin{figure}
+    \center
+    \includegraphics[scale=.38]{img/pca_3D.png}
+    \caption{PCA results (projection of the training population on the three most relevant dimensions)}
+    \label{pca3}
+\end{figure}
 
-The training data also contains the result value of the test bench for each product tested on the production line. As expected, there are only a few of defective items. Although this is good for the company, it means that less than 1\% of the training population are defective items. The effectives of the two classes are very unbalanced which could really impact our models.
+\begin{figure}
+    \center
+    \includegraphics[scale=.38]{img/pca_2D.png}
+    \caption{PCA results (projection of the training population on the two most relevant dimensions)}
+    \label{pca2}
+\end{figure}
+
+\begin{figure}
+    \center
+    \includegraphics[scale=.5]{img/hist_angle_2.png}
+    \caption{Distribution of the \textit{angle\_2} feature with items grouped by class}
+    \label{hist}
+\end{figure}
+
+An in-depth look at the box-plots (Figure \ref{boxplot}) reveals that there might be some outliers in the dataset.\\
+
+\begin{figure}
+    \center
+    \includegraphics[scale=.5]{img/boxplot_snap_ring_final_stroke.png}
+    \caption{Box-plot of the \textit{snap\_ring\_final\_stroke} feature}
+    \label{boxplot}
+\end{figure}
+
+One feature requires more attention. \textit{capuchon\_insertion} is the only feature containing missing values. In fact, more than 50\% of the sample population are missing this value.\\
+
+The training data also contains the result value of the test bench for each product tested on the production line. As expected, there are only a few of defective items. Although this is good for the company, it means that \textbf{less than 1\%} of the training population are defective items. The effectives of the two classes are very unbalanced which could really impact our models.
