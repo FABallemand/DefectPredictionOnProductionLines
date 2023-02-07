@@ -116,7 +116,9 @@ def balanceClassesByDuplicating(train_input, train_output, modify=False, id=Fals
     """
     # Index
     defect_index = train_output.index[train_output["result"] == 1].tolist()
+    # print("defect_index = ", defect_index[:11])
     valid_index = train_output.index[train_output["result"] == 0].tolist()
+    # print("valid_index = ", valid_index[:11])
 
     # Duplicate defective individuals until classes proportion is 50%
     nb_defect = len(defect_index)
@@ -174,7 +176,7 @@ def scaleInputData(X_train, X_test):
 #==== MODEL ==================================================================#
 #=============================================================================#
 
-def modelEvaluation(clf, train_input, train_output, cross_validation=5, model_name="Model", fig_name="unknown", imbalanced_classes=True):
+def modelEvaluation(clf, train_input, train_output, balance_classes=True, cross_validation=5, model_name="Model", fig_name="unknown", imbalanced_classes=True):
     
     fig, axs = plt.subplots(1, 4, figsize=(20,10))
 
@@ -194,6 +196,13 @@ def modelEvaluation(clf, train_input, train_output, cross_validation=5, model_na
         y_train_folds = train_output.iloc[train_index,:] # Training output
         X_test_fold = train_input.iloc[test_index,:] # Testing input
         y_test_fold = train_output.iloc[test_index,:] # Testing output
+
+        if balance_classes:
+            # print("y_train_folds = \n", y_train_folds.head(10))
+            X_train_folds.reset_index(drop=True, inplace=True)
+            y_train_folds.reset_index(drop=True, inplace=True)
+            # print("y_test_folds = \n", y_train_folds.head(10))
+            X_train_folds, y_train_folds = balanceClassesByDuplicating(X_train_folds, y_train_folds)
 
         clone_clf.fit(X_train_folds, y_train_folds["result"])
         y_pred = clone_clf.predict(X_test_fold)
@@ -272,6 +281,7 @@ def modelEvaluation(clf, train_input, train_output, cross_validation=5, model_na
     if imbalanced_classes:
         # ROC
         average_roc_auc_score = 0
+        axs[3].set(aspect='equal', adjustable='box')
         axs[3].plot([0,1],[0,1], 'k--')
         axs[3].axis([0,1,0,1])
         axs[3].set_xlabel("False Positive Rate")
