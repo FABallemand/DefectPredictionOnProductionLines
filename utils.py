@@ -176,9 +176,12 @@ def scaleInputData(X_train, X_test):
 #==== MODEL ==================================================================#
 #=============================================================================#
 
-def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_data=False, cross_validation=5, model_name="Model", fig_name="unknown", imbalanced_classes=True):
+def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_data=False, novelty_detection=False, cross_validation=5, model_name="Model", fig_name="unknown"):
     
-    fig, axs = plt.subplots(1, 4, figsize=(20,10))
+    nb_col = 4
+    if novelty_detection:
+        nb_col = 3
+    fig, axs = plt.subplots(1, nb_col, figsize=(20,10))
 
     accuracy = []
     precision = []
@@ -207,8 +210,14 @@ def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_
         if scale_data:
             X_train_folds, X_test_fold = scaleInputData(X_train_folds, X_test_fold)
 
-        clone_clf.fit(X_train_folds, y_train_folds["result"])
+        if novelty_detection:
+            clone_clf.fit(X_train_folds)
+        else:
+            clone_clf.fit(X_train_folds, y_train_folds["result"])
+
         y_pred = clone_clf.predict(X_test_fold)
+        if novelty_detection:
+            y_pred = [1 if i==-1 else 0 for i in y_pred]
 
         accuracy.append(accuracy_score(y_test_fold, y_pred))
         precision.append(precision_score(y_test_fold, y_pred))
@@ -216,7 +225,8 @@ def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_
         f1.append(f1_score(y_test_fold, y_pred))
         conf_matrix.append(confusion_matrix(y_test_fold, y_pred))
         roc_score.append(roc_auc_score(y_test_fold, y_pred))
-        ROC_curve.append(RocCurveDisplay.from_estimator(clone_clf, X_test_fold, y_test_fold, ax=axs[3]))
+        if not novelty_detection:
+            ROC_curve.append(RocCurveDisplay.from_estimator(clone_clf, X_test_fold, y_test_fold, ax=axs[3]))
 
     # Confusion matrix
     tn = 0
@@ -281,7 +291,7 @@ def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_
     table_2.auto_set_font_size(False)
     table_2.set_fontsize(10)
 
-    if imbalanced_classes:
+    if not novelty_detection:
         # ROC
         average_roc_auc_score = 0
         axs[3].set(aspect='equal', adjustable='box')
