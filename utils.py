@@ -176,7 +176,7 @@ def scaleInputData(X_train, X_test):
 #==== MODEL ==================================================================#
 #=============================================================================#
 
-def modelEvaluation(clf, train_input, train_output, balance_classes=True, cross_validation=5, model_name="Model", fig_name="unknown", imbalanced_classes=True):
+def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_data=False, cross_validation=5, model_name="Model", fig_name="unknown", imbalanced_classes=True):
     
     fig, axs = plt.subplots(1, 4, figsize=(20,10))
 
@@ -203,6 +203,9 @@ def modelEvaluation(clf, train_input, train_output, balance_classes=True, cross_
             y_train_folds.reset_index(drop=True, inplace=True)
             # print("y_test_folds = \n", y_train_folds.head(10))
             X_train_folds, y_train_folds = balanceClassesByDuplicating(X_train_folds, y_train_folds)
+
+        if scale_data:
+            X_train_folds, X_test_fold = scaleInputData(X_train_folds, X_test_fold)
 
         clone_clf.fit(X_train_folds, y_train_folds["result"])
         y_pred = clone_clf.predict(X_test_fold)
