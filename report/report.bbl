@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{project}
 Defect prediction on production line by valeo.
@@ -10,10 +10,23 @@ Valeo.
 \newblock \url{https://www.valeo.com/fr/}.
 \newblock Accessed: 2023.
 
+\bibitem{novel_yt}
+Grab N~Go Info.
+\newblock One class svm for anomaly detection | unsupervised machine learning.
+\newblock
+  \url{https://www.youtube.com/watch?v=0IkFnHpUUjE&ab_channel=GrabNGoInfo}.
+\newblock Accessed: 2023.
+
 \bibitem{nbc_scikit}
 Scikit-Learn.
 \newblock Naive bayes.
 \newblock \url{https://scikit-learn.org/stable/modules/naive_bayes.html}.
+\newblock Accessed: 2023.
+
+\bibitem{novel_scikit}
+Scikit-Learn.
+\newblock Novelty and outlier detection.
+\newblock \url{https://scikit-learn.org/stable/modules/outlier_detection.html}.
 \newblock Accessed: 2023.
 
 \bibitem{rfc_scikit}

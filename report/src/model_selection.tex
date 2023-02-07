@@ -88,33 +88,33 @@ It is important to note that in the sklearn module, it is not possible to modify
 The loss is calculated for each batch, m is the value of the batch size, \(y_i\) is the output of the neural network and \(p_i\) is the associated probability.
 There is no precise method to anticipate the most relevant hyperparameters, the only way is to test several combinations by changing only one hyperparameter at a time and to observe the performance of the network on our data according to these. So we did this and initially took the parameters summarised in the (quote table)
 
-\begin{center}
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Hyperparameters} & \textbf{Selected value} \\ \hline
-        hidden\_layer\_sizes & (200,150,100,50) \\ \hline
-        activation  & hyperbolic tangent \\ \hline
-        solver & stochastic gradient descent \\ \hline
-        alpha & \(10^{-2}\)  \\ \hline
-        batch\_size & 32 \\ \hline
-        learning\_rate & adaptive \\ \hline
-        max\_iter & 2000 \\ \hline
-        random\_state & 1 \\ \hline
-        early\_stopping & True \\ \hline
-        n\_iter\_no\_change & 12\\ \hline
-    \end{tabular}
-\end{center}
+% \begin{center}
+%     \begin{tabular}{|c|c|}
+%         \hline
+%         \textbf{Hyperparameters} & \textbf{Selected value} \\ \hline
+%         hidden\_layer\_sizes & (200,150,100,50) \\ \hline
+%         activation  & hyperbolic tangent \\ \hline
+%         solver & stochastic gradient descent \\ \hline
+%         alpha & \(10^{-2}\)  \\ \hline
+%         batch\_size & 32 \\ \hline
+%         learning\_rate & adaptive \\ \hline
+%         max\_iter & 2000 \\ \hline
+%         random\_state & 1 \\ \hline
+%         early\_stopping & True \\ \hline
+%         n\_iter\_no\_change & 12\\ \hline
+%     \end{tabular}
+% \end{center}
 
 We evaluate our MLP's performance on Balanced classes obtained by removing individuals.
 
-\begin{figure}
-    \centering
-    \subfloat[Confusion Matrix]{\includegraphics[scale=0.32\columnwidth]{conf_mlp.png}}
-    \qquad
-    \subfloat[ROC Curve]{\includegraphics[scale=0.32\columnwidth]{roc_mlp.png}}
-    \caption{MLP Classifier Evaluation}
-    \label{mlp}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \subfloat[Confusion Matrix]{\includegraphics[scale=0.32\columnwidth]{conf_mlp.png}}
+%     \qquad
+%     \subfloat[ROC Curve]{\includegraphics[scale=0.32\columnwidth]{roc_mlp.png}}
+%     \caption{MLP Classifier Evaluation}
+%     \label{mlp}
+% \end{figure}
 
 
 \subsection{Novelty Detection}
