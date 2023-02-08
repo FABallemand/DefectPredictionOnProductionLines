@@ -57,6 +57,13 @@ Scikit-Learn.
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html}.
 \newblock Accessed: 2023.
 
+\bibitem{osvm_scikit}
+Scikit-Learn.
+\newblock sklearn.svm.oneclasssvm.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html}.
+\newblock Accessed: 2023.
+
 \bibitem{dtl_wikipedia}
 Wikipedia.
 \newblock Decision tree learning.

@@ -234,11 +234,11 @@ ability might be very be a advantge for this application as the model will stay
 relevant even when new defects occur. For instance, the tools on the assembly
 line will probably wear down leading to the apparition of new defects.\\
 
-The
+The model choosen for novelty detection is a One Class SVM classifier \cite{osvm_scikit} with a radial basis function kernel. This classifier did notn perform well during testing with an average precision lower than 1\% but it has an impresive average recall of 0.95 with only 2\% standard deviation during cross validation.\\
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.32]{img/osvm_?_d.png}
+    \includegraphics[scale=0.32]{img/osvm_rbf_d.png}
     \caption{One Class SVM Classifier Evaluation}
     \label{osvm_d}
 \end{figure}
