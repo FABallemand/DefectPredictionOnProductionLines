@@ -36,6 +36,13 @@ Scikit-Learn.
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html}.
 \newblock Accessed: 2023.
 
+\bibitem{grid_scikit}
+Scikit-Learn.
+\newblock sklearn.model_selection.gridsearchcv.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html}.
+\newblock Accessed: 2023.
+
 \bibitem{nbcg_scikit}
 Scikit-Learn.
 \newblock sklearn.naive\_bayes.gaussiannb.
@@ -62,6 +69,12 @@ Scikit-Learn.
 \newblock sklearn.svm.oneclasssvm.
 \newblock
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html}.
+\newblock Accessed: 2023.
+
+\bibitem{supervised_scikit}
+Scikit-Learn.
+\newblock Supervised learning.
+\newblock \url{https://scikit-learn.org/stable/supervised_learning.html}.
 \newblock Accessed: 2023.
 
 \bibitem{dtl_wikipedia}

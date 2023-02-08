@@ -1,1 +1,9 @@
 \section{Conclusion}
+Detecting defective items on a production line based on measurements is not an easy task. It requires a good understanding of the situtation, a good amount of critical thinking and a lot of testing.\\
+
+After a proper analysis of the available data, some features were removed and classes needed to be balanced.\\
+
+Several ML models were trained and the best candidate is the Naives Bayes Classifier with a ROC AUC score of 60\%. Eventhough it has a low precision, it shows a fairly high recall, a good quality for a model aiming at detecting defects on a production line.
+
+To sum up, so as to detect anomalies on production line, the Naïves Bayes classifier was the final choice concerning the projet. Classifier optimization enhance the performance of the model even if it remains perfectible. The main problems have been in avoiding overfitting due to the unbalanced class, which reduce the classifier performance.
+To improve it, others ways such as Novelty Detections or SMOTE was tried. However, they don't provide enough good results so as to select them. Hyperparameters such as "kernel" or class weight could be the key to solve the problem with a better model.
