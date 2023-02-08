@@ -69,7 +69,7 @@ classifier that is very common when dealing with numerical continuous values.
 However it also assumes that every features follows a Gaussian distribution.\\
 
 The confusion matrix in Figure \ref{nbc} shows poor results. This is expected
-because Figure \ref{data_analysis_1} demonstrates some features do not follow a
+because Figure \ref{distrib} demonstrates some features do not follow a
 Gaussian distribution. In addition, the assumption that features are
 independant from one another might not be relevant with this dataset. For
 instance, the \textit{snap\_ring\_peak\_force} might increase with the value of
@@ -229,7 +229,16 @@ and the estimated proportion of defects, the model will train itself and learn
 what a valid individual is supposed to look like \cite{novel_yt}. It will then
 be able to classify new individuals: everything that is different than a valid
 item will be classified defective. Consequently, this means that the model is
-able to detect defects that are not represented in the training datset. This
+able to detect defects that are not depicted in the training datset. This
 ability might be very be a advantge for this application as the model will stay
 relevant even when new defects occur. For instance, the tools on the assembly
-line will probably wear down leading to the apparition of new defects.
+line will probably wear down leading to the apparition of new defects.\\
+
+The
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.32]{img/osvm_?_d.png}
+    \caption{One Class SVM Classifier Evaluation}
+    \label{osvm_d}
+\end{figure}

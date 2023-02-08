@@ -1,7 +1,23 @@
 \section{Data Preparation}
-The data analysis performed in the previous section revealed some flaws in the dataset. The two most noticeable are the presence of outliers and the population imbalance between the two classes. These two flaws are known for harming the learning of most ML models. Different attemps at solving these issues are presented in this section.
+The data analysis performed in the previous section revealed some flaws in the dataset. The two most noticeable are the presence of missing values and the population imbalance between the two classes. These two flaws are known for harming the learning of most ML models. Different attemps at solving these issues are presented in this section.
 
-\subsection{Outliers}
+\subsection{Missing Values}
+The previous section mentions missing values in the dataset. This notion is self-explanatory: some individuals have no value entered for some feature.\\
+
+We noticed that these missing values only concerned the \textit{capuchon\_insertion} feature but their amount was not negligeable. Among 34515 items, 18627 of them (i.e. 53\% of the population) do not have any value describing this dimension.\\
+
+The first idea to prevent this issue would be to fill the missing values with an estimation like the mean or the median of the values that are entered for this feature.\\
+
+However this method has some drawbacks. First, it makes the assumption the data could have been measured but on the production line the \textit{capuchon\_insertion} was probably not measured because the item was already broken. Then it makes an assumption on the value of the parameter which can potentially compromise the data. What if the defective and valid items have a different mean value for this feature? Of course we could also fill the data with an estimation of the value for each class but knowing the classes are unbalanced it might be hazardous. Further analysis show 110 defective items among the 305 present in the training data are missing this value. While 36\% of missing values does not look too bad, estimating the mean or the median with only 195 individuals starts to get tricky.\\
+
+Another way to deal with this issue is to simply drop this feature from the dataset. Figure \ref{hist_capuchon} clearly shows there is no distinction between defective a,d valid items regarding \textit{capuchon\_insertion}. Hence it is not a valuable feature when it comes to classify the parts on the production line.
+
+\begin{figure}
+    \center
+    \includegraphics[scale=.5]{img/hist_capuchon_insertion.png}
+    \caption{Distribution of the \textit{capuchon\_insertion} feature with items grouped by class}
+    \label{hist_capuchon}
+\end{figure}
 
 \subsection{Balance Classes}
 \label{balance_classes}
