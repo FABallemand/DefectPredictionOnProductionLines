@@ -25,11 +25,6 @@ This number is increased by 1 each time we process a new product, every 12 secon
 
 ## Solution
 
-## To do list:
-
-- Improve model performance (remove outliers, adding data, select most relevant features)  
-- Smote  
-
 ## Team
 
 - AIT BACHIR Romuald  

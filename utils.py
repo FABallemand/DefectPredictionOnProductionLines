@@ -312,59 +312,70 @@ def modelEvaluation(clf, train_input, train_output, balance_classes=True, scale_
     plt.savefig("report/img/" + fig_name)
     plt.show()
 
-def modelEvaluation_old(model, train_input, train_output, cross_validation=5, model_name="Model", fig_name="unknown"):
+def finalModelEvaluation(clf, train_input, train_output, test_input, test_output, balance_classes=True, scale_data=False, novelty_detection=False, model_name="Model", fig_name="final"):
+    
+    nb_col = 3
+    if novelty_detection:
+        nb_col = 4
+    fig, axs = plt.subplots(1, nb_col, figsize=(20,10))
 
-    fig, axs = plt.subplots(1, 3, figsize=(20,10))
+    if balance_classes:
+        train_input, train_output = balanceClassesByDuplicating(train_input, train_output)
 
-    # Simple prediction
-    X_train, X_test, y_train, y_test = train_test_split(train_input, train_output, test_size = 0.3, random_state = 42)
-    model.fit(X_train, y_train["result"])
-    y_pred = model.predict(X_test)
+    if scale_data:
+        train_input, test_input = scaleInputData(train_input, test_input)
 
-    # Cross validation
-    cross_val_model = clone(model)
-    y_cross_pred = cross_val_predict(cross_val_model, train_input, train_output["result"], cv = cross_validation)
-    # print(y_pred)
-    y_cross_score = cross_val_score(cross_val_model, train_input, train_output["result"], cv = cross_validation, scoring="accuracy")
-    # print(y_score)
+    if novelty_detection:
+        clf.fit(train_input)
+    else:
+        clf.fit(train_input, train_output["result"])
 
-    # Precision/Recall/F1
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
-    # axs[1].set_title("Precisions/Recall/F1")
-    axs[1].axis('off')
-    data = [["Accuracy (cv 1)", str(y_cross_score[0])],
-        ["Accuracy (cv 2)", str(y_cross_score[1])],
-        ["Accuracy (cv 3)", str(y_cross_score[2])],
-        ["Accuracy (cv 4)", str(y_cross_score[3])],
-        ["Accuracy (cv 5)", str(y_cross_score[4])],
-        ["Average Accuray", str(np.mean(y_cross_score))],
-        ["Accuracy Standar Deviation", str(np.std(y_cross_score))],
-        ["Precision", str(precision)],
-        ["Recall",str(recall)],
-        ["F1", str(f1)]]
-    axs[1].table(data, cellLoc='center', loc='center').set_fontsize(10)
+    y_pred = clf.predict(test_input)
+    if novelty_detection:
+        y_pred = [1 if i==-1 else 0 for i in y_pred]
 
-    # ROC
-    fpr, tpr, thresholds = roc_curve(y_test, y_pred)
-    auc_score = roc_auc_score(y_test, y_pred)
-    axs[2].set_title("ROC (AUC score = " + str(auc_score) +")")
-    axs[2].plot(fpr, tpr, linewidth=2)
-    axs[2].plot([0,1],[0,1], 'k--')
-    axs[2].axis([0,1,0,1])
-    axs[2].set_xlabel("False Positive Rate")
-    axs[2].set_ylabel("True Positive Rate")
-    # axs[2].text(0.2, 0.1, "AUC = " + str(auc_score))
-    # axs[2].xlabel("False Positive Rate")
-    # axs[2].ylabel("True Positive Rate")
+    accuracy = accuracy_score(test_output, y_pred)
+    precision = precision_score(test_output, y_pred)
+    recall = recall_score(test_output, y_pred)
+    f1 = f1_score(test_output, y_pred)
+    conf_matrix = confusion_matrix(test_output, y_pred)
+    roc_score = roc_auc_score(test_output, y_pred)
+    if not novelty_detection:
+        ROC_curve = RocCurveDisplay.from_estimator(clf, test_input, test_output, ax=axs[2])
 
     # Confusion matrix
-    axs[0].set_title("Confusion Matrix")
-    from sklearn import metrics
-    # metrics.ConfusionMatrixDisplay.from_predictions(y_train, y_pred).plot(ax=axs[0])
-    metrics.ConfusionMatrixDisplay(confusion_matrix = metrics.confusion_matrix(y_test, y_pred), display_labels = [0, 1]).plot(ax=axs[0])
-    
-    fig.suptitle(model_name + " Evaluation")
+    tn, fp, fn, tp = conf_matrix.ravel()
+    average_confusion_matrix = np.array([[tn, fp],[fn, tp]])
+    axs[0].set_title("Average Confusion Matrix")
+    ConfusionMatrixDisplay(average_confusion_matrix, display_labels = [0, 1]).plot(ax=axs[0])
+
+    # Accuracy/Precision/Recall/F1
+    axs[1].axis('off')
+    data = [["Accuracy", f'{accuracy:.9f}'],
+    ["",""],
+        ["Precision", f'{precision:.9f}'],
+            ["",""],
+        ["Recall", f'{recall:.9f}'],
+            ["",""],
+        ["F1", f'{f1:.9f}']]
+    table_2 = axs[1].table(data, cellLoc='center', loc='center')
+    table_2.scale(1, 1.5)
+    table_2.auto_set_font_size(False)
+    table_2.set_fontsize(10)
+
+    if not novelty_detection:
+        # ROC
+        average_roc_auc_score = 0
+        axs[2].set(aspect='equal', adjustable='box')
+        axs[2].plot([0,1],[0,1], 'k--')
+        axs[2].axis([0,1,0,1])
+        axs[2].set_xlabel("False Positive Rate")
+        axs[2].set_ylabel("True Positive Rate")
+        axs[2].set_title("ROC (Average AUC score = " + str(roc_auc_score) +")")
+    else:
+        # PR
+        pass
+
+    fig.suptitle("Final " + model_name + " Evaluation")
     plt.savefig("report/img/" + fig_name)
     plt.show()

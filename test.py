@@ -25,13 +25,13 @@ train_input, train_output = utils.loadTrainingData(remove_id=True, remove_capuch
 # print(train_input_.shape)
 
 # Create model
-clf = GaussianNB()
+# clf = GaussianNB()
 # clf = KNeighborsClassifier(n_neighbors=3) # weights="distance"
 # clf = ComplementNB()
 
 # Grid search
 # params_NB = {'var_smoothing': np.logspace(0, -15, num=100)}
-# # print(np.logspace(0, -9, num=10))
+# # # print(np.logspace(0, -9, num=10))
 # gs_NB = GridSearchCV(estimator=clf,
 #                      param_grid=params_NB,
 #                      # cv=cv_method,   # use any cross validation technique
@@ -53,3 +53,8 @@ clf = GaussianNB()
 
 # Evaluate model
 # utils.modelEvaluation(clf, train_input, train_output, balance_classes=True, model_name="Test Classifier", fig_name="test")
+
+# Final evaluation
+# train_input, train_output = utils.loadTrainingData(remove_id=True, remove_capuchon_insertion=True)
+# test_input, test_output = utils.loadTrainingData("data/test_inputs.csv", "data/test_output.csv", remove_id=True, remove_capuchon_insertion=True)
+# utils.finalModelEvaluation(clf, train_input, train_output, test_input, test_output, balance_classes=True, model_name="Naive Bayes Classifier")
