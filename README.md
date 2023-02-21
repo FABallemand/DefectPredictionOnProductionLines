@@ -25,9 +25,12 @@ This number is increased by 1 each time we process a new product, every 12 secon
 
 ## Method
 
+The first step consisted in analysing and preparing the data as there are a few missing values and the classes are very imbalanced.  
 Among several AI models from the Python [Scikit-Learn](https://scikit-learn.org/stable/) library, the best results come from the Naive Bayes Classifier. With a little bit of fine tuning (i.e. $var\_smoothing = 10^{-7}$) the ROC AUC score reached 0.6 with cross validation on the training data.  
 
-For more details read: *report/report.pdf*
+For more details read: *report/report.pdf*  
+
+The selected method for data preparation and the fine tuned model get a score of 0.6251613691744773 on the [website](https://challengedata.ens.fr), which corresponds to the 156th place at the time of writting.
 
 ## Team
 
