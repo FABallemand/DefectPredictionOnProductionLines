@@ -23,7 +23,11 @@ This number is increased by 1 each time we process a new product, every 12 secon
 
 **Output**: This is the result value of OP130 (test bench). Value 0 is assigned to OK samples (passed) and value 1 is assigned to KO samples (failed). This is the combined result of multiple electrical, acoustic and vibro-acoustic tests.  
 
-## Solution
+## Method
+
+Among several AI models from the Python [Scikit-Learn](https://scikit-learn.org/stable/) library, the best results come from the Naive Bayes Classifier. With a little bit of fine tuning (i.e. $var\_smoothing = 10^{-7}$) the ROC AUC score reached 0.6 with cross validation on the training data.  
+
+For more details read: *report/report.pdf*
 
 ## Team
 
